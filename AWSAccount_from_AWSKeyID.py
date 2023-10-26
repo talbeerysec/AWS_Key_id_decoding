@@ -8,9 +8,9 @@ def AWSAccount_from_AWSKeyID(AWSKeyID):
     y = x[0:6]
     
     z = int.from_bytes(y, byteorder='big', signed=False)
-    mask = int.from_bytes(binascii.unhexlify(b'7fffffffff80'), byteorder='big', signed=False)
-    
-    e = (z & mask)>>7
+    mask = (int.from_bytes(binascii.unhexlify(b'ffffffffff00'), byteorder='big', signed=False))>>1 # 5 bytes mask, shifted by 1 bit
+
+    e = (z & mask)>>7 # applying the mask, and shifting to remove x[6]'s 7 irrelevant bits
     return (e)
 
 
